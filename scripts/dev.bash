@@ -1,2 +1,3 @@
-docker build ./
-docker run -it -p 8080:8080 -v [put your path here]/app:/go/src/github.com/user/myProject/app [image id]
+cd ..
+docker build ./ -t=devbox
+winpty docker run -it -p 8080:8080 -v Go\src\github.com\mccjul\helloworld\app devbox
