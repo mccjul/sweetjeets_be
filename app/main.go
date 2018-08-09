@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -12,7 +13,13 @@ import (
 
 type query struct{}
 
-func (_ *query) Hello() string { return "Hello, world!" }
+func (q *query) Hello() string { return "Hello, world!" }
+
+func (q *query) Bye(ctx context.Context, args *struct {
+	Thingy string
+}) string {
+	return args.Thingy
+}
 
 func getFile(path string) (string, error) {
 	b, err := ioutil.ReadFile(path)
