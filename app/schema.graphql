@@ -1,7 +1,22 @@
-schema {
-  query: Query
+type Todo {
+  id: ID
+  name: String
+  completed: Boolean
 }
+
 type Query {
   hello: String!
   bye(thingy: String!): String!
+  getTodos: Todo!
+}
+
+type Mutation {
+  # addTodo(pet: PetInput!): Pet
+  # updateTodo(pet: PetInput!): Pet
+  # deleteTodo(userID: ID!, petID: ID!): Boolean
+}
+
+schema {
+  query: Query
+  mutation: Mutation
 }

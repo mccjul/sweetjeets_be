@@ -40,14 +40,6 @@ func (h *GraphQL) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Write(responseJSON)
 }
 
-func (q *query) Hello() string { return "Hello, world!" }
-
-func (q *query) Bye(ctx context.Context, args *struct {
-	Thingy string
-}) string {
-	return args.Thingy
-}
-
 func getFile(path string) (string, error) {
 	b, err := ioutil.ReadFile(path)
 	if err != nil {
@@ -69,7 +61,7 @@ func main() {
 		return
 	}
 
-	gqlschema := graphql.MustParseSchema(s, &query{})
+	gqlschema := graphql.MustParseSchema(s, &Resolver{})
 	ex := GraphQL{Schema: gqlschema}
 	ctx := context.Background()
 	http.Handle("/query", serveGQL(ctx, ex))
