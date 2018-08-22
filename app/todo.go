@@ -57,31 +57,23 @@ func (t *TodoInput) COMPLETED(ctx context.Context) *bool {
 // 	return &p, nil
 // }
 
-// var todos = []Todo{
-// 	Todo{name: "rex", id: 1, completed: true},
-// 	Todo{name: "goldie", id: 2, completed: true},
-// 	Todo{name: "spot", id: 3, completed: true},
-// 	Todo{name: "pokey", id: 4, completed: true},
-// 	Todo{name: "sneezy", id: 5, completed: false},
-// 	Todo{name: "duke", id: 6, completed: true},
-// 	Todo{name: "duchess", id: 7, completed: false},
-// 	Todo{name: "bernard", id: 8, completed: true},
-// 	Todo{name: "William III of Chesterfield", id: 9, completed: true},
-// 	Todo{name: "hops", id: 10, completed: true},
-// }
+func (db *DB) getTodos(ctx context.Context) *[]*Todo {
+	var resolvers = make([]*Todo, 0, len(todos))
+	for _, t := range todos {
+		resolvers = append(resolvers, &t)
+	}
 
-// func (db *DB) getTodos(ctx context.Context) *[]Todo {
-// 	return &todos
-// }
+	return &resolvers
+}
 
-// func (db *DB) addTodo(ctx context.Context) *Todo {
-// 	return &todos
-// }
+func (db *DB) addTodo(ctx context.Context, t *TodoInput) *Todo {
+	return &Todo{Name: t.Name, Completed: false}
+}
 
-// func (db *DB) updateTodo(ctx context.Context, t Todo) *Todo {
-// 	return t
-// }
+func (db *DB) updateTodo(ctx context.Context, t *TodoInput) *Todo {
+	return &Todo{Name: t.Name, Completed: t.Completed}
+}
 
-// func (db *DB) deleteTodo(ctx context.Context, id int32) *Todo {
-// 	return todos[id]
-// }
+func (db *DB) deleteTodo(ctx context.Context, id *int32) *Todo {
+	return &Todo{Name: "rex", Completed: true}
+}
