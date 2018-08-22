@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/jinzhu/gorm"
 	// nolint: gotype
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 // DB something someting
@@ -13,7 +13,7 @@ type DB struct {
 
 func newDB(path string) (*DB, error) {
 	// connect to the example db, create if it doesn't exist
-	db, err := gorm.Open("sqlite3", path)
+	db, err := gorm.Open("postgres", "host=0.0.0.0 port=5432 user=usr dbname=test sslmode=disable password=pass")
 	if err != nil {
 		return nil, err
 	}

@@ -1,11 +1,15 @@
-version: '3'
+version: "3"
 services:
   server:
     build: .
+    environment:
+      app_env: production
 
   db:
-    image: mysql
+    image: mysql:5
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306

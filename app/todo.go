@@ -57,23 +57,55 @@ func (t *TodoInput) COMPLETED(ctx context.Context) *bool {
 // 	return &p, nil
 // }
 
-func (db *DB) getTodos(ctx context.Context) *[]*Todo {
+// func (db *DB) getTodos(ctx context.Context) *[]*Todo {
+// 	var resolvers = make([]*Todo, 0, len(todos))
+// 	for _, t := range todos {
+// 		resolvers = append(resolvers, &t)
+// 	}
+
+// 	return &resolvers
+// }
+
+// func (db *DB) addTodo(ctx context.Context, t *TodoInput) *Todo {
+// 	return &Todo{Name: t.Name, Completed: false}
+// }
+
+// func (db *DB) updateTodo(ctx context.Context, t *TodoInput) *Todo {
+// 	return &Todo{Name: t.Name, Completed: t.Completed}
+// }
+
+func (db *DB) deleteTodo(ctx context.Context, id *int32) (*Todo, error) {
+	return &Todo{Name: "rex", Completed: true}, nil
+}
+
+func (db *DB) getTodos(ctx context.Context) (*[]*Todo, error) {
 	var resolvers = make([]*Todo, 0, len(todos))
 	for _, t := range todos {
 		resolvers = append(resolvers, &t)
 	}
 
-	return &resolvers
+	return &resolvers, nil
 }
 
-func (db *DB) addTodo(ctx context.Context, t *TodoInput) *Todo {
-	return &Todo{Name: t.Name, Completed: false}
+func (db *DB) addTodo(ctx context.Context, t *TodoInput) (*Todo, error) {
+	return &Todo{Name: t.Name, Completed: false}, nil
 }
 
-func (db *DB) updateTodo(ctx context.Context, t *TodoInput) *Todo {
-	return &Todo{Name: t.Name, Completed: t.Completed}
+func (db *DB) updateTodo(ctx context.Context, t *TodoInput) (*Todo, error) {
+	return &Todo{Name: t.Name, Completed: t.Completed}, nil
 }
 
-func (db *DB) deleteTodo(ctx context.Context, id *int32) *Todo {
-	return &Todo{Name: "rex", Completed: true}
-}
+// func (db *DB) deleteTodo(ctx context.Context, id *int32) (*Todo, error) {
+// 	var t Todo
+// 	err := db.DB.First(&t, id).Error
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	err = db.DB.Delete(&t).Error
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	return &t, nil
+// }
