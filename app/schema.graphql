@@ -4,16 +4,19 @@ type Todo {
   completed: Boolean
 }
 
+input TodoInput {
+  name: String!
+  completed: Boolean!
+}
+
 type Query {
-  hello: String!
-  bye(thingy: String!): String!
-  getTodos: Todo!
+  getTodos: [Todo]
 }
 
 type Mutation {
-  # addTodo(pet: PetInput!): Pet
-  # updateTodo(pet: PetInput!): Pet
-  # deleteTodo(userID: ID!, petID: ID!): Boolean
+  addTodo(todoIn: TodoInput!): Todo
+  updateTodo(todoIn: TodoInput!): Todo
+  deleteTodo(id: ID!): Todo
 }
 
 schema {

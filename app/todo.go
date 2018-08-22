@@ -7,13 +7,19 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+// Todo datatype
 type Todo struct {
 	gorm.Model
 	Name      string
 	Completed bool
 }
 
-// RESOLVERS ===========================================================================
+// TodoInput datatype
+type TodoInput struct {
+	Name      string
+	Completed bool
+}
+
 //ID resolves the ID field for Pet
 func (t *Todo) ID(ctx context.Context) *graphql.ID {
 	return gqlIDP(t.Model.ID)
@@ -24,7 +30,18 @@ func (t *Todo) NAME(ctx context.Context) *string {
 	return &t.Name
 }
 
+// COMPLETED resolves the name field for Todo
 func (t *Todo) COMPLETED(ctx context.Context) *bool {
+	return &t.Completed
+}
+
+// NAME resolves the name field for Pet
+func (t *TodoInput) NAME(ctx context.Context) *string {
+	return &t.Name
+}
+
+// COMPLETED resolves the name field for Todo
+func (t *TodoInput) COMPLETED(ctx context.Context) *bool {
 	return &t.Completed
 }
 
@@ -57,10 +74,14 @@ func (t *Todo) COMPLETED(ctx context.Context) *bool {
 // 	return &todos
 // }
 
-// func (db *DB) updateTodo(ctx context.Context, t Todo) Todo {
+// func (db *DB) addTodo(ctx context.Context) *Todo {
+// 	return &todos
+// }
+
+// func (db *DB) updateTodo(ctx context.Context, t Todo) *Todo {
 // 	return t
 // }
 
-// func (db *DB) deleteTodo(ctx context.Context, id int32) Todo {
+// func (db *DB) deleteTodo(ctx context.Context, id int32) *Todo {
 // 	return todos[id]
 // }

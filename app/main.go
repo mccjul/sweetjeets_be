@@ -11,8 +11,6 @@ import (
 	graphql "github.com/graph-gophers/graphql-go"
 )
 
-type query struct{}
-
 // GraphQL struct for apollo
 type GraphQL struct {
 	Schema *graphql.Schema
