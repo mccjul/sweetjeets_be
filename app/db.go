@@ -15,7 +15,7 @@ type DB struct {
 
 func newDB() (*DB, error) {
 	// connect to the example db, create if it doesn't exist
-	db, err := gorm.Open("mysql", "root:root@tcp(172.17.0.2:3306)/test")
+	db, err := gorm.Open("mysql", "root:root@tcp(172.17.0.2:3306)/test?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		log.Fatalln(err)
 	}

@@ -79,16 +79,26 @@ func (db *DB) deleteTodo(ctx context.Context, id *int32) (*Todo, error) {
 }
 
 func (db *DB) getTodos(ctx context.Context) (*[]*Todo, error) {
-	var resolvers = make([]*Todo, 0, len(todos))
-	for _, t := range todos {
-		resolvers = append(resolvers, &t)
+	var t []*Todo
+	err := db.DB.Find(&t).Error
+	if err != nil {
+		return nil, err
 	}
 
-	return &resolvers, nil
+	return &t, nil
 }
 
 func (db *DB) addTodo(ctx context.Context, t *TodoInput) (*Todo, error) {
-	return &Todo{Name: t.Name, Completed: false}, nil
+	todo := Todo{
+		Name:      t.Name,
+		Completed: t.Completed,
+	}
+
+	err := db.DB.Create(&todo).Error
+	if err != nil {
+		return nil, err
+	}
+	return &todo, nil
 }
 
 func (db *DB) updateTodo(ctx context.Context, t *TodoInput) (*Todo, error) {
