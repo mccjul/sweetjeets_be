@@ -10,13 +10,13 @@ import (
 var db DB
 
 func init() {
-	// var err error
-	// d, err := newDB("./db.sqlite")
-	// if err != nil {
-	// 	panic(err)
-	// }
+	var err error
+	d, err := newDB()
+	if err != nil {
+		panic(err)
+	}
 
-	// db = *d
+	db = *d
 }
 
 // Resolver is the root resolver

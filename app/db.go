@@ -1,9 +1,11 @@
 package main
 
 import (
+	"log"
+
 	"github.com/jinzhu/gorm"
 	// nolint: gotype
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 // DB something someting
@@ -11,11 +13,11 @@ type DB struct {
 	DB *gorm.DB
 }
 
-func newDB(path string) (*DB, error) {
+func newDB() (*DB, error) {
 	// connect to the example db, create if it doesn't exist
-	db, err := gorm.Open("postgres", "host=0.0.0.0 port=5432 user=usr dbname=test sslmode=disable password=pass")
+	db, err := gorm.Open("mysql", "root:root@tcp(172.17.0.2:3306)/test")
 	if err != nil {
-		return nil, err
+		log.Fatalln(err)
 	}
 
 	// drop tables and all data, and recreate them fresh for this run
