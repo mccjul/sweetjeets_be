@@ -16,6 +16,7 @@ type Todo struct {
 
 // TodoInput datatype
 type TodoInput struct {
+	ID        *float64
 	Name      string
 	Completed bool
 }
@@ -46,38 +47,6 @@ func (t *TodoInput) COMPLETED(ctx context.Context) *bool {
 }
 
 // DB ===================================================================================
-// GetPet should authorize the user in ctx and return a pet or error
-// func (db *DB) getPet(ctx context.Context, id int32) (*Pet, error) {
-// 	var p Pet
-// 	err := db.DB.First(&p, id).Error
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	return &p, nil
-// }
-
-// func (db *DB) getTodos(ctx context.Context) *[]*Todo {
-// 	var resolvers = make([]*Todo, 0, len(todos))
-// 	for _, t := range todos {
-// 		resolvers = append(resolvers, &t)
-// 	}
-
-// 	return &resolvers
-// }
-
-// func (db *DB) addTodo(ctx context.Context, t *TodoInput) *Todo {
-// 	return &Todo{Name: t.Name, Completed: false}
-// }
-
-// func (db *DB) updateTodo(ctx context.Context, t *TodoInput) *Todo {
-// 	return &Todo{Name: t.Name, Completed: t.Completed}
-// }
-
-func (db *DB) deleteTodo(ctx context.Context, id *int32) (*Todo, error) {
-	return &Todo{Name: "rex", Completed: true}, nil
-}
-
 func (db *DB) getTodos(ctx context.Context) (*[]*Todo, error) {
 	var t []*Todo
 	err := db.DB.Find(&t).Error
@@ -101,21 +70,43 @@ func (db *DB) addTodo(ctx context.Context, t *TodoInput) (*Todo, error) {
 	return &todo, nil
 }
 
-func (db *DB) updateTodo(ctx context.Context, t *TodoInput) (*Todo, error) {
-	return &Todo{Name: t.Name, Completed: t.Completed}, nil
+func (db *DB) updateTodo(ctx context.Context, tin *TodoInput) (*Todo, error) {
+	var t Todo
+
+	err := db.DB.First(&t, int(*tin.ID)).Error
+	if err != nil {
+		return nil, err
+	}
+
+	updated := Todo{
+		Name:      tin.Name,
+		Completed: tin.Completed,
+	}
+
+	err = db.DB.Model(&t).Updates(updated).Error
+	if err != nil {
+		return nil, err
+	}
+
+	err = db.DB.First(&t, int(*tin.ID)).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &t, nil
 }
 
-// func (db *DB) deleteTodo(ctx context.Context, id *int32) (*Todo, error) {
-// 	var t Todo
-// 	err := db.DB.First(&t, id).Error
-// 	if err != nil {
-// 		return nil, err
-// 	}
+func (db *DB) deleteTodo(ctx context.Context, id *int32) (*Todo, error) {
+	var t Todo
+	err := db.DB.First(&t, int(*id)).Error
+	if err != nil {
+		return nil, err
+	}
 
-// 	err = db.DB.Delete(&t).Error
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	err = db.DB.Delete(&t).Error
+	if err != nil {
+		return nil, err
+	}
 
-// 	return &t, nil
-// }
+	return &t, nil
+}

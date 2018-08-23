@@ -5,6 +5,7 @@ type Todo {
 }
 
 input TodoInput {
+  id: Int
   name: String!
   completed: Boolean!
 }
